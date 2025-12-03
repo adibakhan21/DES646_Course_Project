@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IITK Smart Shuttle Simulator — Figma HTML Mockup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#22c55e; --danger:#ef4444; --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; margin:0; background:linear-gradient(180deg,#061016 0%, #071426 60%); color:#e6eef8}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#0ea5a9,#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:800}
+    h1{font-size:16px;margin:0}
+    .subtitle{font-size:12px;color:var(--muted)}
+
+    .container{display:grid;grid-template-columns:300px 1fr 360px;gap:20px;padding:22px}
+
+    /* Left column */
+    .panel{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(3,7,18,0.6)}
+    .nav-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;color:var(--muted);cursor:pointer}
+    .nav-item.active{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:#fff}
+    .small{font-size:12px;color:var(--muted)}
+
+    /* Center map area */
+    .map-wrap{display:flex;flex-direction:column;height:74vh}
+    .map-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .map{flex:1;background:linear-gradient(180deg,#071a27,#05202b);border-radius:12px;padding:14px;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(10,1fr);gap:4px}
+    .cell{background:var(--glass);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted)}
+    .cell.road{background:linear-gradient(180deg,#0f1724,#0b1220);color:#9ad7ff}
+    .cell.obstacle{background:linear-gradient(180deg,#2b2830,#3b313a);color:#ffccd5}
+    .cell.start{background:linear-gradient(90deg,#16a34a,#134e4a);font-weight:700}
+    .cell.goal{background:linear-gradient(90deg,#3b82f6,#1e40af);font-weight:700}
+    .controls{display:flex;gap:8px}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:10px 12px;border-radius:8px;color:#e6eef8;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,#06b6d4,#7c3aed);border:none}
+    .metric-row{display:flex;gap:12px;margin-top:12px}
+    .metric{flex:1;padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));text-align:center}
+    .metric h3{margin:0;font-size:18px}
+    .metric p{margin:6px 0 0 0;font-size:12px;color:var(--muted)}
+
+    /* Right column */
+    .panel h2{margin:0 0 12px 0}
+    .track{height:220px;border-radius:8px;background:linear-gradient(180deg,#021022,#051722);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+    .chart{height:180px;margin-top:12px}
+
+    footer{padding:14px 22px;color:var(--muted);font-size:13px;border-top:1px solid rgba(255,255,255,0.02);display:flex;justify-content:space-between}
+
+    /* Responsive */
+    @media (max-width:1000px){.container{grid-template-columns:1fr;grid-auto-rows:auto}.map-wrap{height:60vh}.panel.right{order:3}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">IK</div>
+      <div>
+        <h1>IITK Smart Shuttle Simulator</h1>
+        <div class="subtitle">Digital twin • DQN agent • Safety-first navigation</div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="exportBtn">Export Design</button>
+      <button class="btn primary" id="launchBtn">Launch Mock Simulation</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <aside>
+      <div class="panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div><strong>Project</strong><div class="small">Reinforcement Learning • DQN</div></div>
+          <div class="small">v1.0</div>
+        </div>
+        <div class="nav-item active">🏁 Dashboard</div>
+        <div class="nav-item">🗺️ Map Editor</div>
+        <div class="nav-item">⚙️ Training</div>
+        <div class="nav-item">📊 Analytics</div>
+        <div style="height:12px"></div>
+        <div style="font-size:13px;color:var(--muted)">Environment</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <div class="btn" id="preset1">Library → LCH</div>
+          <div class="btn" id="preset2">Hostel Loop</div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="small">Reward Settings</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <label class="small">Crash Penalty <strong>-100</strong></label>
+          <label class="small">Goal Reward <strong>+1000</strong></label>
+        </div>
+      </div>
+    </aside>
+
+    <section>
+      <div class="map-wrap">
+        <div class="map-top">
+          <div>
+            <strong>Campus Grid</strong>
+            <div class="small">10 × 10 grid (roads, obstacles, start, goal)</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="small">Episode: <span id="episode">0</span></div>
+            <div class="small">Success: <span id="successRate">0%</span></div>
+            <div class="small">Avg Reward: <span id="avgReward">0</span></div>
+          </div>
+        </div>
+
+        <div class="map" id="map">
+          <!-- grid cells injected by JS -->
+        </div>
+
+        <div class="metric-row">
+          <div class="metric"><h3 id="status">Idle</h3><p>Agent status</p></div>
+          <div class="metric"><h3 id="steps">0</h3><p>Steps this episode</p></div>
+          <div class="metric"><h3 id="collisions">0</h3><p>Collisions</p></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel right">
+      <div class="panel" style="padding:12px">
+        <h2>Training Controls</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn primary" id="trainBtn">Start Training</button>
+          <button class="btn" id="pauseBtn">Pause</button>
+          <button class="btn" id="resetBtn">Reset</button>
+        </div>
+
+        <div style="margin-top:12px">
+          <label class="small">Episodes to run</label>
+          <input id="episodesInput" type="number" value="50000" style="width:100%;margin-top:6px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#e6eef8"/>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="small">Training Monitor</div>
+          <div class="track" id="rewardTrack">Reward convergence chart</div>
+          <canvas id="rewardChart" class="chart"></canvas>
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+      <div class="panel" style="padding:12px">
+        <h2>Session Log</h2>
+        <div id="log" style="height:160px;overflow:auto;border-radius:8px;padding:8px;background:var(--glass-2);color:var(--muted);font-size:13px">Ready.</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div>© IITK Smart Shuttle — Mockup</div>
+    <div class="small">Design: Figma-style HTML • Ask me to export React/Tailwind</div>
+  </footer>
+
+  <!-- Scripts: basic simulation for prototype UI -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Build grid
+    const mapEl = document.getElementById('map');
+    const episodeEl = document.getElementById('episode');
+    const successEl = document.getElementById('successRate');
+    const avgRewardEl = document.getElementById('avgReward');
+    const statusEl = document.getElementById('status');
+    const stepsEl = document.getElementById('steps');
+    const collisionsEl = document.getElementById('collisions');
+    const logEl = document.getElementById('log');
+
+    const rows = 10, cols = 10;
+    let cells = [];
+    let episode = 0, successes = 0, totalReward=0, totalEpisodes=0;
+
+    function createGrid(){
+      mapEl.innerHTML=''; cells = [];
+      for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+          const div = document.createElement('div');
+          div.className='cell';
+          div.dataset.r = r; div.dataset.c = c;
+          // Basic map pattern: border obstacles + road
+          if(r===0||c===0||r===rows-1||c===cols-1) div.classList.add('obstacle');
+          else div.classList.add('road');
+
+          mapEl.appendChild(div);
+          cells.push(div);
+        }
+      }
+      // set start and goal
+      const startCell = cells[11]; startCell.classList.remove('road'); startCell.classList.add('start'); startCell.textContent='S';
+      const goalCell = cells[88]; goalCell.classList.remove('road'); goalCell.classList.add('goal'); goalCell.textContent='G';
+    }
+
+    createGrid();
+
+    // Chart: reward over time (mock data)
+    const ctx = document.getElementById('rewardChart').getContext('2d');
+    const rewardData = { labels: [], datasets: [{ label:'Episode Reward', data: [], fill:true, tension:0.3 }] };
+    const rewardChart = new Chart(ctx, { type:'line', data: rewardData, options:{animation:false, plugins:{legend:{display:false}}, scales:{x:{display:false}}}});
+
+    // Simulation controls (mock behavior emulating training updates)
+    let training = false, episodeTimer = null;
+    document.getElementById('trainBtn').addEventListener('click', ()=>{
+      if(training) return; training = true; statusEl.textContent='Training'; log('Training started'); runTraining();
+    });
+    document.getElementById('pauseBtn').addEventListener('click', ()=>{training=false; statusEl.textContent='Paused'; log('Training paused');});
+    document.getElementById('resetBtn').addEventListener('click', ()=>{training=false; reset(); log('Session reset');});
+
+    function log(txt){
+      const time = new Date().toLocaleTimeString();
+      logEl.innerHTML = `<div>[${time}] ${txt}</div>` + logEl.innerHTML;
+    }
+
+    function runTraining(){
+      const targetEpisodes = parseInt(document.getElementById('episodesInput').value || '5000');
+      episodeTimer = setInterval(()=>{
+        if(!training) { clearInterval(episodeTimer); return; }
+        episode++; episodeEl.textContent = episode;
+        // generate mock reward trending up
+        const reward = Math.floor(200*Math.tanh(episode/1000) + (Math.random()*120-40));
+        totalReward += reward; totalEpisodes++;
+        rewardData.labels.push(episode); rewardData.datasets[0].data.push(reward);
+        if(rewardData.labels.length>200) { rewardData.labels.shift(); rewardData.datasets[0].data.shift(); }
+        rewardChart.update();
+        avgRewardEl.textContent = Math.round(totalReward/Math.max(1,totalEpisodes));
+
+        // success criteria (mock)
+        const succ = Math.random() < Math.min(0.95, 0.5 + episode/100000);
+        if(succ){ successes++; successEl.textContent = Math.round((successes/episode)*100) + '%'; }
+
+        // update metrics
+        stepsEl.textContent = Math.floor(5 + Math.random()*45);
+        collisionsEl.textContent = Math.random()<0.02 ? parseInt(collisionsEl.textContent)+1 : collisionsEl.textContent;
+
+        // animate agent on map briefly (mock)
+        animateAgentOnMap();
+
+        // stop when reached target
+        if(episode >= targetEpisodes){ training=false; clearInterval(episodeTimer); statusEl.textContent='Idle'; log('Training complete: ' + episode + ' episodes'); }
+      }, 180);
+    }
+
+    function animateAgentOnMap(){
+      // pick a random road cell between start & goal and pulse it
+      const roadCells = cells.filter(c=>c.classList.contains('road'));
+      const pick = roadCells[Math.floor(Math.random()*roadCells.length)];
+      pick.style.transform='scale(1.06)'; pick.style.transition='transform 0.25s';
+      setTimeout(()=>{ pick.style.transform=''; },220);
+    }
+
+    function reset(){ episode=0; successes=0; totalReward=0; totalEpisodes=0; rewardData.labels=[]; rewardData.datasets[0].data=[]; rewardChart.update(); episodeEl.textContent='0'; successEl.textContent='0%'; avgRewardEl.textContent='0'; statusEl.textContent='Idle'; stepsEl.textContent='0'; collisionsEl.textContent='0'; }
+
+    // Export mockup (download HTML) — lightweight
+    document.getElementById('exportBtn').addEventListener('click', ()=>{
+      const html = '<!doctype html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='iitk-shuttle-mockup.html'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    // Preset handlers
+    document.getElementById('preset1').addEventListener('click', ()=>{ log('Preset: Library → LCH loaded'); });
+    document.getElementById('preset2').addEventListener('click', ()=>{ log('Preset: Hostel Loop loaded'); });
+
+    // Initial log
+    log('Figma-style HTML mockup ready');
+  </script>
+</body>
+</html>
